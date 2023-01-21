@@ -7,19 +7,21 @@ public class astroid {
          st.push(a[0]);
          for(int i=1;i<n;i++)
          {
-             if(st.size()>0 && st.peek()>0 && a[i]<0)
-             {
-                 while(st.size()>0 && st.peek()<Math.abs(a[i]))
+                 while(st.size()>0 &&  st.peek()>0 && a[i]<0 )
                  {
+                     if(st.peek()<Math.abs(a[i]))
+                     {
                      st.pop();
+                     continue;
+                     }
+                     else if(st.peek()==Math.abs(a[i]))
+                     st.pop();
+                     
+                     break;
                  }
-                 if(st.peek()==Math.abs(a[i]))
-                 st.pop();
-                 else if(st.size()==0 || st.peek()<0)
+                 if(st.size()==0 || st.peek()<0 || a[i]>0)
                  st.push(a[i]);
-             }
-             else
-             st.push(a[i]);
+                 
          }
          int s=st.size();
 
@@ -31,7 +33,7 @@ public class astroid {
     }
     public static void main(String[] args)
     {
-        int[]a={5,10,-5};
+        int[]a={-2,-2,1,-2};
         int[]res=asteroidCollision(a);
         for(int i: res)
         System.out.print(i+" ");

@@ -26,19 +26,19 @@ class minDiff {
         int max=Integer.MIN_VALUE;
         Arrays.sort(arr);
         diff=arr[n-1]-arr[0];
-        for(int i=1;i<n;i++)
+        for(int i=0;i<n-1;i++)
         {
-        if(arr[i]<k)continue;
-         min = Math.min(arr[0] + k, arr[i] - k);
-        max = Math.max(arr[n - 1] - k, arr[i - 1] + k);
+        if(arr[i+1]<k)continue;
+         min = Math.min(arr[0] + k, arr[i+1] - k);
+        max = Math.max(arr[n - 1] - k, arr[i] + k);
         if (max < min) continue;      // as max till now can't be smaller than min till now hence ignore that element.
         diff = Math.min(diff, max - min);
         }
       return diff;
     }
     public static void main(String[] args) throws Exception {
-        int[]a={6 ,10 ,3 ,8 ,3 ,9 ,7 ,8 ,5 ,8};
-      int k=5;
+        int[]a={6 ,1 ,9 ,1 ,1 ,7 ,9 ,5 ,2 ,10};
+      int k=4;
      // int ans=findKthLargest(a,k);
       //System.out.println(ans);
             int ans = new minDiff().getMinDiff(a, a.length, k);
