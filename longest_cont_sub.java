@@ -1,3 +1,4 @@
+/*Q;300 */
 import java.util.*;
 public class longest_cont_sub {
     public static void main(String[] args) {
