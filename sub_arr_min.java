@@ -1,16 +1,14 @@
 import java.util.Stack;
 
 public class sub_arr_min {
-      public static int sumSubarrayMins(int[] a) {
+/*       public static int sumSubarrayMins(int[] a) {
         long sum=0;
         long mod=(long)1e9+7;
         int n=a.length;
         int[] right=new int[n];
         int[] left=new int[n];
-        /*
-        for(int i=0;i<n;i++)
-        sum+=a[i];
-        */
+
+        
         Stack<Integer>s=new Stack<>();
 
         for(int i=n-1;i>=0;i--)
@@ -52,7 +50,34 @@ public class sub_arr_min {
         }
 
         return (int)sum;
+    } */
+
+    public static int sumSubarrayMins(int[] arr) {
+        long res = 0;
+        Stack<Integer> stack = new Stack<Integer>();
+        long M = (long)1e9 + 7;
+        stack.push(-1);
+        
+        for (int i2 = 0; i2 < arr.length+1; i2++){
+            int currVal = (i2<arr.length)? arr[i2] : 0;
+            
+            while(stack.peek() !=-1 && currVal < arr[stack.peek()]){
+                int index = stack.pop();
+                int i1 = stack.peek();
+                int left = index - i1;
+                int right = i2 - index;
+                long add = (long)(left * right * (long)arr[index]) % M;
+                res += add ;
+                res %= M;
+            }
+            
+            stack.push(i2);
+            
+        }
+        
+        return (int)res;
     }
+
     public static void main(String[] args) {
         int[]a={71,55,82,55};
         int res=sumSubarrayMins(a);

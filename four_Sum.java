@@ -3,83 +3,56 @@ import java.lang.*;
 
 public class four_Sum {
     
-    public static ArrayList<ArrayList<Integer>> fourSum(int[] a, int k) {
-        HashMap<String,Boolean>map=new HashMap<>();
-        int n=a.length;
-        ArrayList<ArrayList<Integer>>res=new ArrayList<>();
-        Arrays.sort(a);
-        //for(int i : a)
-        //System.out.print(i+" ");
-        for (int i=0;i<n-3;i++){
-            int sum=k-a[i];
-            ArrayList<ArrayList<Integer>> aux_res=threeSum(a,i+1,n,sum,map);
-            if(aux_res.size()>0){
-                String key=a[i]+"";
-                 for(int p=0;p<aux_res.size();p++){
-                     ArrayList<Integer>aux_List=aux_res.get(p);
-                     for (int s2:aux_List)
-                     key+=s2+"";
-                     if (!map.containsKey(key)){
-                     aux_List.add(0,a[i]);
-                     res.add(p,aux_List);
-                     map.put(key,true);
-                     }
-                 }
-             }
-         }
-         return res;
-            
-        }
-    
-     public static ArrayList<ArrayList<Integer>> threeSum(int[]a,int beg,int n,int k,HashMap<String,Boolean>map){
-         int end=n;
-          ArrayList<ArrayList<Integer>>res=new ArrayList<>();
-         for(int i=beg;i<end-2;i++)
-         {
-             int sum=k-a[i];
-             ArrayList<ArrayList<Integer>> aux_res=twoSum(a,i+1,n,sum,map);
-             if(aux_res.size()>0){
-                String key=a[i]+"";
-                 for(int p=0;p<aux_res.size();p++){
-                     ArrayList<Integer>aux_List=aux_res.get(p);
-                     for (int s2:aux_List)
-                     key+=s2+"";
-                     if (!map.containsKey(key)){
-                     aux_List.add(0,a[i]);
-                     res.add(p,aux_List);
-                     map.put(key,true);
-                     }
-                 }
-             }
-         }
-         return res;
-     }
-     
-    public static ArrayList<ArrayList<Integer>> twoSum(int[]a,int i,int n,int k,HashMap<String,Boolean>map){
-        ArrayList<ArrayList<Integer>>res=new ArrayList<>();
-        int j=n-1;
-        while(i<j){
-            if(a[i]+a[j]==k)
-            {
-            String key=a[i]+""+a[j]+"";
-            if(!map.containsKey(key)){    
-            ArrayList<Integer>list=new ArrayList<>();    
-            list.add(a[i]);
-            list.add(a[j]);
-            res.add(list);
-            map.put(key,true);
+   public static List<List<Integer>> fourSum(int[] nums, int target) {
+        int n = nums.length; // size of the array
+        List<List<Integer>> ans = new ArrayList<>();
+
+        // sort the given array:
+        Arrays.sort(nums);
+
+        // calculating the quadruplets:
+        for (int i = 0; i < n; i++) {
+            // avoid the duplicates while moving i:
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            long t1=target-nums[i];
+            for (int j = i + 1; j < n; j++) {
+                // avoid the duplicates while moving j:
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+                long t2=t1-nums[j];
+                // 2 pointers:
+                int k = j + 1;
+                int l = n - 1;
+                while (k < l) {
+                  long t3=0;
+                    t3+=nums[k];
+                    t3 += nums[l];
+                    if (t3 == t2) {
+                        List<Integer> temp = new ArrayList<>();
+                        temp.add(nums[i]);
+                        temp.add(nums[j]);
+                        temp.add(nums[k]);
+                        temp.add(nums[l]);
+                        ans.add(temp);
+                        k++;
+                        l--;
+
+                        // skip the duplicates:
+                        while (k < l && nums[k] == nums[k - 1]) k++;
+                        while (k < l && nums[l] == nums[l + 1]) l--;
+                    } else if (t3 < t2) k++;
+                    else l--;
+                }
             }
-            i++;
-            }
-            else if(a[i]+a[j]<k) i++;
-            else if (a[i]+a[j]>k) j--;
         }
-        return res;
+
+        return ans;
     }
     public static void main(String[] args) {
-        int a[]={-3,-2,-1,0,0,1,2,3};
-        int k=0;
-        ArrayList<ArrayList<Integer>>res=fourSum(a,k);
+        //int a[]={-3,3,-2,-1,0,0,1,2};
+        int a[]={1000000000,1000000000,1000000000,1000000000};
+        int k=-294967296;
+        four_Sum f=new four_Sum();
+        List<List<Integer>>res=f.fourSum(a,k);
         System.out.println(res);
     }
 }
