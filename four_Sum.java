@@ -1,99 +1,54 @@
+/*
+ * LEETCODE Q:18
+ */
+
 import java.util.*;
 import java.lang.*;
 
 public class four_Sum {
     
-    HashMap<Integer,List<List<Integer>>>sum_2=new HashMap<>();
-    HashMap<Integer,List<List<Integer>>> sum_3=new HashMap<>();
-    //HashMap<Integer,List<List<Integer>>> sum_4=new HashMap<>();
-    public List<List<Integer>> fourSum(int[] a, int target) {
-    
-    Arrays.sort(a);
-    for(int x:a)
-    System.out.print(x+" ");
-    int n=a.length;
-    List<List<Integer>>ans=new ArrayList<>();
-    for(int i=0;i<n-3;i++)
-    {
-        int num1=(i-1>=0)?a[i-1]:Integer.MIN_VALUE;
-        int num=a[i];
-        if(num==num1)continue;
-        List<List<Integer>>aux_List;
-        int sum=target-a[i];
-        if(sum_3.containsKey(sum))
-        aux_List=sum_3.get(sum);
-        else
-        {
-        aux_List=threeSum(a,i+1,n,sum);
-        sum_3.put(sum,aux_List);
-        }
-            for(List<Integer>l1:aux_List)
-            {
-               List<Integer>l=new ArrayList<>();
-               l.add(a[i]);
-               for(Integer x:l1)
-               l.add(x);
-               ans.add(l);
-            }
-    }
-        return ans;
-    }
+   public List<List<Integer>> fourSum(int[] nums, int target) {
+         int n = nums.length; // size of the array
+        List<List<Integer>> ans = new ArrayList<>();
 
-    public List<List<Integer>> threeSum(int[]a,int beg,int n,int key)
-    {
-        List<List<Integer>> ans=new ArrayList<>();
-        for(int i=beg;i<n-2;i++)
-        {
-            int num1=(i-1>=beg)?a[i-1]:Integer.MIN_VALUE;
-            int num=a[i];
-            if(num==num1)continue;
-            List<List<Integer>>aux_List;
-            int sum=key-a[i];
-            if(sum_2.containsKey(sum))
-            aux_List=sum_2.get(sum);
-            else
-            {
-                aux_List=twoSum(a,i+1,n-1,sum);
-                if(aux_List.size()>0)
-                sum_2.put(sum,aux_List);
-            }
-            for(List<Integer>l1:aux_List)
-            {
-               List<Integer>l=new ArrayList<>();
-               l.add(a[i]);
-               for(Integer x:l1)
-               l.add(x);
-               ans.add(l);
+        // sort the given array:
+        Arrays.sort(nums);
+
+        // calculating the quadruplets:
+        for (int i = 0; i < n; i++) {
+            // avoid the duplicates while moving i:
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            long t1=target-nums[i];
+            for (int j = i + 1; j < n; j++) {
+                // avoid the duplicates while moving j:
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+                long t2=t1-nums[j];
+                // 2 pointers:
+                int k = j + 1;
+                int l = n - 1;
+                while (k < l) {
+                  long t3=0;
+                    t3+=nums[k];
+                    t3 += nums[l];
+                    if (t3 == t2) {
+                        List<Integer> temp = new ArrayList<>();
+                        temp.add(nums[i]);
+                        temp.add(nums[j]);
+                        temp.add(nums[k]);
+                        temp.add(nums[l]);
+                        ans.add(temp);
+                        k++;
+                        l--;
+
+                        // skip the duplicates:
+                        while (k < l && nums[k] == nums[k - 1]) k++;
+                        while (k < l && nums[l] == nums[l + 1]) l--;
+                    } else if (t3 < t2) k++;
+                    else l--;
+                }
             }
         }
-        return ans;
-    }
-    public List<List<Integer>> twoSum(int[]a,int beg, int end,int sum)
-    {
-        List<List<Integer>>ans=new ArrayList<>();
-        int i=beg;
-        while(i<end)
-        {
-            int num1=(i-1>=beg)?a[i-1]:Integer.MIN_VALUE;
-            int num=a[i];
-            if(num==num1)
-            {
-                i++;
-                continue;
-            }
-            if(a[i]+a[end]==sum)
-            {
-                List<Integer>l=new ArrayList<>();
-                l.add(a[i]);
-                l.add(a[end]);
-                ans.add(l);
-                i++;
-            }
-            else if(a[i]+a[end]<sum)
-            i++;
-            else
-            end--;
-        }
+
         return ans;
     }
      
