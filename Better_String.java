@@ -16,9 +16,10 @@ public class Better_String {
     {
         Arrays.fill(map,-1);
         int ans=0;
-        ans_map=new int[n+1];
+        
         if(i==n)
         {
+        ans_map=new int[n+1];    
         ans_map[i]=1;
         return 1;
         }
