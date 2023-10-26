@@ -1,5 +1,5 @@
 import java.util.*;
-class pair {
+class pair_2 {
     public static boolean canArrange(int[] arr, int k) {
         int n=arr.length;
         HashMap<Integer,Integer>map=new HashMap<>();
